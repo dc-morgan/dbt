@@ -5,6 +5,12 @@ models:
   columns:
   - name: payment_id
     description: A unique identifier for each payment transaction.
+    data_tests:
+      - unique:
+          config:
+            severity: error
+            warn_if: ">10"
+            error_if: ">1000"
   - name: order_id
     description: The identifier for the order associated with the payment.
   - name: payment_method
@@ -12,6 +18,14 @@ models:
   - name: status
     description: The current status of the payment, indicating whether it is completed,
       pending, or failed.
+    data_tests:
+      - accepted_values:
+          values:
+            - success
+            - fail
+          config:
+            limit: 10
+            store_failures: true
   - name: amount
     description: The total amount of the payment in dollars.
   - name: created_at
